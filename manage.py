@@ -4,6 +4,11 @@ import os
 import sys
 
 
+"""
+abcd
+"""
+
+
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project.settings')
     try:
