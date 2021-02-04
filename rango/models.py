@@ -8,6 +8,7 @@ class Category(models.Model):
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     
+    #SlugField : Slug is a newspaper term. A slug is a short label for something, containing only letters, numbers, underscores or hyphens. They’re generally used in URLs.
     slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
@@ -19,6 +20,8 @@ class Category(models.Model):
         
     def __str__(self):
         return self.name
+    
+
     
 class Page(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
