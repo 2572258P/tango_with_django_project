@@ -1,26 +1,32 @@
 from django.shortcuts import render
 from rango.models import Category
 from rango.models import Page
-from rango.form import CategoryForm
-from rango.form import PageForm
+from rango.forms import CategoryForm
+from rango.forms import PageForm
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.http import HttpResponse
+#from django.http import HttpResponse
 
 def index(request):    
     category_list = Category.objects.order_by('-likes')[:5]
     context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy,creamy,cookie,candy,cupcake!'
+    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
     context_dict['categories'] = category_list
     
     page_list = Page.objects.order_by('-views')[:5]
     context_dict['pages'] = page_list
-    context_dict['cat_ML'] = Category.objects.order_by('-likes')[0]
+    
+    likedobjs = Category.objects.order_by('-likes')
+    if likedobjs.count() > 0:
+        context_dict['cat_ML'] = likedobjs[0]
     
     return render(request, 'rango/index.html',context=context_dict)
     
 def about(request):
-    return render(request,'rango/about.html')
+    context_dict = {}
+    context_dict['boldmessage'] = 'Crunchy,creamy,cookie,candy,cupcake!'
+    return render(request,'rango/about.html',context=context_dict)
+
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -81,8 +87,3 @@ def add_page(request,category_name_slug):
     context_dict = {'form' : form, 'category' : category }
     return render(request, 'rango/add_page.html', context=context_dict)
     
-def test1(request,var1):
-    return HttpResponse("test1" + var1)
-
-def test2(request,var1):    
-    return HttpResponse("test2" + f"{var1}")
