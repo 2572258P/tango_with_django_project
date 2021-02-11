@@ -7,7 +7,8 @@ Created on Wed Feb  3 20:17:06 2021
 
 
 from django import forms
-from rango.models import Page, Category,max_length_field,max_length_URL
+from rango.models import Page, Category,UserProfile,max_length_field,max_length_URL
+from django.contrib.auth.models import User
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=max_length_field,
@@ -41,7 +42,17 @@ class PageForm(forms.ModelForm):
             cleaned_data['url'] = url
         return cleaned_data  
         
-        
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    
+    class Meta:
+        model = User
+        fields = ('username','email','password')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website','picture',)
         
         
         
